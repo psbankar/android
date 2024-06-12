@@ -159,7 +159,6 @@ class HealthConnectSensorManager : SensorManager {
         return SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
     }
 
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun checkPermission(context: Context, sensorId: String): Boolean {
         val healthConnectClient = HealthConnectClient.getOrCreate(context)
         val result = runBlocking {
