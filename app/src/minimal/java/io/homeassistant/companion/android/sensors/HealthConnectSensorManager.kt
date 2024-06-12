@@ -13,7 +13,6 @@ class HealthConnectSensorManager : SensorManager {
     }
 
     override fun requestSensorUpdate(context: Context) {
-
     }
 
     override suspend fun getAvailableSensors(context: Context): List<SensorManager.BasicSensor> {
