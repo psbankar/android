@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-sdk tools:overrideLibrary="com.google.android.gms.threadnetwork" />
+    <uses-sdk tools:overrideLibrary="com.google.android.gms.threadnetwork, androidx.health.connect.client" />
 
     <queries>
         <!-- For GMS Core/Play service -->
