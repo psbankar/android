@@ -842,9 +842,8 @@ class LocationSensorManager : BroadcastReceiver(), SensorManager {
             accuracy = location.accuracy.toInt()
         }
         val updateLocation: UpdateLocation
-        val updateLocationAs: String
         val updateLocationString: String
-        updateLocationAs = getSendLocationAsSetting(serverId)
+        val updateLocationAs: String = getSendLocationAsSetting(serverId)
         if (updateLocationAs == SEND_LOCATION_AS_ZONE_ONLY) {
             val zones = getZones(serverId)
             val locationZone = zones
@@ -917,8 +916,6 @@ class LocationSensorManager : BroadcastReceiver(), SensorManager {
             logLocationUpdate(location, updateLocation, serverId, trigger, LocationHistoryItemResult.SKIPPED_OLD)
             return
         }
-        lastLocationSend[serverId] = now
-        lastUpdateLocation[serverId] = updateLocationString
 
         val geocodeIncludeLocation = getSetting(
             latestContext,
@@ -932,6 +929,8 @@ class LocationSensorManager : BroadcastReceiver(), SensorManager {
             try {
                 serverManager(latestContext).integrationRepository(serverId).updateLocation(updateLocation)
                 Log.d(TAG, "Location update sent successfully for $serverId as $updateLocationAs")
+                lastLocationSend[serverId] = now
+                lastUpdateLocation[serverId] = updateLocationString
                 logLocationUpdate(location, updateLocation, serverId, trigger, LocationHistoryItemResult.SENT)
 
                 // Update Geocoded Location Sensor
@@ -959,7 +958,7 @@ class LocationSensorManager : BroadcastReceiver(), SensorManager {
 
     private fun createLocationRequest(): LocationRequest {
         val locationRequest = LocationRequest.Builder(DEFAULT_LOCATION_INTERVAL).apply { // every 60 seconds
-            setMaxUpdateAgeMillis(DEFAULT_LOCATION_MAX_WAIT_TIME) // every ~3.5 minutes
+            setMaxUpdateDelayMillis(DEFAULT_LOCATION_MAX_WAIT_TIME) // every ~3.5 minutes
             setMinUpdateIntervalMillis(DEFAULT_LOCATION_FAST_INTERVAL) // every 30 seconds
             setPriority(Priority.PRIORITY_BALANCED_POWER_ACCURACY)
         }.build()
